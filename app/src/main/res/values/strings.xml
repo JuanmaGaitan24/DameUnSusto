@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dame Un Susto</string>
+    <string name="numsustos">Num Sustos</string>
+    <string name="crearsustos">!!Crear Sustos!!</string>
 </resources>
