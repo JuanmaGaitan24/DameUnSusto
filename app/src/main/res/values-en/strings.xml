@@ -3,4 +3,6 @@
     <string name="app_name">Give me a scare</string>
     <string name="numsustos">Num Scares</string>
     <string name="crearsustos">!!Create Scares!!</string>
+    <string name="errorcantidad">The Fright Number entered must be greater than 0 and less than or equal to 10</string>
+    <string name="numerosegundos">Seconds</string>
 </resources>

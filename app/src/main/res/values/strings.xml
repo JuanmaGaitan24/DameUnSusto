@@ -2,4 +2,6 @@
     <string name="app_name">Dame Un Susto</string>
     <string name="numsustos">Num Sustos</string>
     <string name="crearsustos">!!Crear Sustos!!</string>
+    <string name="errorcantidad">El Numero de Susto introducido debe ser mayor que 0 y menor o igual que 10</string>
+    <string name="numerosegundos">Segundos</string>
 </resources>
