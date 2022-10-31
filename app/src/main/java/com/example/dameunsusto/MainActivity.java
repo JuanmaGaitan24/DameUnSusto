@@ -40,23 +40,25 @@ public class MainActivity extends AppCompatActivity {
         R.drawable.woodcreaks, R.drawable.zombie
     };
 
-    String[] nombresSonidos = new String[]{
-        getString(R.string.alien), getString(R.string.arbusto),
-        getString(R.string.cristalroto), getString(R.string.cadenas),
-        getString(R.string.motosierra), getString(R.string.puertacerrandose),
-        getString(R.string.risamalevola), getString(R.string.mujercallendo),
-        getString(R.string.pasos), getString(R.string.tripas),
-        getString(R.string.latidos), getString(R.string.cuchillo),
-        getString(R.string.llamarpuerta), getString(R.string.rugidomonstruo),
-        getString(R.string.cancion), getString(R.string.tormenta),
-        getString(R.string.vientolluvia), getString(R.string.lovos),
-        getString(R.string.maderacruguiendo), getString(R.string.zombie)
-    };
+    String[] nombresSonidos = new String[]{};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        nombresSonidos = new String[]{
+                getString(R.string.alien), getString(R.string.arbusto),
+                getString(R.string.cristalroto), getString(R.string.cadenas),
+                getString(R.string.motosierra), getString(R.string.puertacerrandose),
+                getString(R.string.risamalevola), getString(R.string.mujercallendo),
+                getString(R.string.pasos), getString(R.string.tripas),
+                getString(R.string.latidos), getString(R.string.cuchillo),
+                getString(R.string.llamarpuerta), getString(R.string.rugidomonstruo),
+                getString(R.string.cancion), getString(R.string.tormenta),
+                getString(R.string.vientolluvia), getString(R.string.lovos),
+                getString(R.string.maderacruguiendo), getString(R.string.zombie)
+        };
 
         listaSpinner = findViewById(R.id.filaSpinner);
         listaNsegundos = findViewById(R.id.filaTextNumber);
@@ -78,17 +80,17 @@ public class MainActivity extends AppCompatActivity {
                         EditText Nsegundos = new EditText(MainActivity.this);
                         Button btnCuentaAtras = new Button(MainActivity.this);
 
-                        listaSonidos.setLayoutParams(new LinearLayout.LayoutParams(400, 250));
+                        listaSonidos.setLayoutParams(new LinearLayout.LayoutParams(500, 250));
                         listaSonidos.setPadding(20,60,0,40);
 
-                        Nsegundos.setLayoutParams(new LinearLayout.LayoutParams(350, 250));
+                        Nsegundos.setLayoutParams(new LinearLayout.LayoutParams(325, 250));
                         Nsegundos.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
                         Nsegundos.setHint(getString(R.string.numerosegundos));
                         Nsegundos.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         Nsegundos.setHintTextColor(getResources().getColor(android.R.color.holo_orange_light));
                         Nsegundos.setPadding(30,60,0,40);
 
-                        btnCuentaAtras.setLayoutParams(new LinearLayout.LayoutParams(300, 250));
+                        btnCuentaAtras.setLayoutParams(new LinearLayout.LayoutParams(250, 250));
                         btnCuentaAtras.setBackground(getResources().getDrawable(R.drawable.play));
 
                         listaSpinner.addView(listaSonidos);
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
                         listaSonidos.setAdapter(adaptadorParaSustos);
 
                     }
+
+                    btnCrearSustos.setEnabled(false);
+                    etCantSustos.setEnabled(false);
 
                 }
                 else{
