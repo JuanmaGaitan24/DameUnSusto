@@ -2,14 +2,19 @@ package com.example.dameunsusto;
 
 import static com.google.android.material.R.color.m3_ref_palette_white;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -36,16 +41,16 @@ public class MainActivity extends AppCompatActivity {
     };
 
     String[] nombresSonidos = new String[]{
-        String.valueOf(R.string.alien), String.valueOf(R.string.arbusto),
-        String.valueOf(R.string.cristalroto), String.valueOf(R.string.cadenas),
-        String.valueOf(R.string.motosierra), String.valueOf(R.string.puertacerrandose),
-        String.valueOf(R.string.risamalevola), String.valueOf(R.string.mujercallendo),
-        String.valueOf(R.string.pasos), String.valueOf(R.string.tripas),
-        String.valueOf(R.string.latidos), String.valueOf(R.string.cuchillo),
-        String.valueOf(R.string.llamarpuerta), String.valueOf(R.string.rugidomonstruo),
-        String.valueOf(R.string.cancion), String.valueOf(R.string.tormenta),
-        String.valueOf(R.string.vientolluvia), String.valueOf(R.string.lovos),
-        String.valueOf(R.string.maderacruguiendo), String.valueOf(R.string.zombie)
+        getString(R.string.alien), getString(R.string.arbusto),
+        getString(R.string.cristalroto), getString(R.string.cadenas),
+        getString(R.string.motosierra), getString(R.string.puertacerrandose),
+        getString(R.string.risamalevola), getString(R.string.mujercallendo),
+        getString(R.string.pasos), getString(R.string.tripas),
+        getString(R.string.latidos), getString(R.string.cuchillo),
+        getString(R.string.llamarpuerta), getString(R.string.rugidomonstruo),
+        getString(R.string.cancion), getString(R.string.tormenta),
+        getString(R.string.vientolluvia), getString(R.string.lovos),
+        getString(R.string.maderacruguiendo), getString(R.string.zombie)
     };
 
     @Override
@@ -90,9 +95,8 @@ public class MainActivity extends AppCompatActivity {
                         listaNsegundos.addView(Nsegundos);
                         listaplay.addView(btnCuentaAtras);
 
-                        ArrayAdapter<String> adaptador;
-                        adaptador = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, nombresSonidos);
-
+                        AdaptadorParaSustos adaptadorParaSustos = new AdaptadorParaSustos(MainActivity.this, R.layout.lista, nombresSonidos);
+                        listaSonidos.setAdapter(adaptadorParaSustos);
 
                     }
 
@@ -106,5 +110,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+
+    private class AdaptadorParaSustos extends ArrayAdapter<String>{
+
+        public AdaptadorParaSustos(@NonNull Context context, int resource, @NonNull String[] objects){
+            super(context, resource, objects);
+        }
+
+        @Override
+        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return rellenarFila(position, convertView, parent);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return rellenarFila(position, convertView, parent);
+        }
+
+        private View rellenarFila(int position, View convertView, ViewGroup parent){
+
+            LayoutInflater inflater = getLayoutInflater();
+            View miFila = inflater.inflate(R.layout.lista, parent, false);
+
+            TextView nombre = miFila.findViewById(R.id.textViewtitulo);
+            ImageView icono = miFila.findViewById(R.id.imageViewIcono);
+
+            nombre.setText(nombresSonidos[position]);
+            icono.setImageResource(logos[position]);
+
+            return miFila;
+        }
+
+    }
+
 }
