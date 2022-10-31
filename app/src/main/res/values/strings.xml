@@ -4,4 +4,24 @@
     <string name="crearsustos">!!Crear Sustos!!</string>
     <string name="errorcantidad">El Numero de Susto introducido debe ser mayor que 0 y menor o igual que 10</string>
     <string name="numerosegundos">Segundos</string>
+    <string name="alien">Sonido Alien</string>
+    <string name="arbusto">Sonido de Arbusto</string>
+    <string name="cristalroto">Cristal Rompiendose</string>
+    <string name="cadenas">Sonido cadena</string>
+    <string name="motosierra">Sonido Motosierra</string>
+    <string name="puertacerrandose">Puerta cerrandose</string>
+    <string name="risamalevola">Risa malevola</string>
+    <string name="mujercallendo">Mujer callendo</string>
+    <string name="pasos">Sonidos de pasos</string>
+    <string name="tripas">Sonido de tripas</string>
+    <string name="latidos">Latidos de corazon</string>
+    <string name="cuchillo">Cuchillo afilandose</string>
+    <string name="llamarpuerta">Llamada a puerta</string>
+    <string name="rugidomonstruo">Rugido de Monstruo</string>
+    <string name="cancion">Cancion</string>
+    <string name="tormenta">Tormenta</string>
+    <string name="vientolluvia">Viento y lluvia</string>
+    <string name="lovos">Lobos aullando</string>
+    <string name="maderacruguiendo">Madera cruguiendo</string>
+    <string name="zombie">Zombie gritando</string>
 </resources>

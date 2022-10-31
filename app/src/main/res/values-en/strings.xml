@@ -5,4 +5,24 @@
     <string name="crearsustos">!!Create Scares!!</string>
     <string name="errorcantidad">The Fright Number entered must be greater than 0 and less than or equal to 10</string>
     <string name="numerosegundos">Seconds</string>
+    <string name="alien">Alien Sound</string>
+    <string name="cancion">Song</string>
+    <string name="tormenta">Storm</string>
+    <string name="vientolluvia">Wind and Rain</string>
+    <string name="cuchillo">Knife Sharpening</string>
+    <string name="arbusto">Bush Sound</string>
+    <string name="cristalroto">Breaking Glass</string>
+    <string name="cadenas">Chain Sound</string>
+    <string name="motosierra">Chainsaw Sound</string>
+    <string name="puertacerrandose">Door Closing</string>
+    <string name="risamalevola">Evil Laugh</string>
+    <string name="mujercallendo">Falling Woman</string>
+    <string name="pasos">Footstep Sounds</string>
+    <string name="tripas">Sound of Guts</string>
+    <string name="latidos">Heart beats</string>
+    <string name="llamarpuerta">Knock on Door</string>
+    <string name="rugidomonstruo">Monster Roar</string>
+    <string name="lovos">Wolves Howling</string>
+    <string name="maderacruguiendo">Creaking Wood</string>
+    <string name="zombie">Zombie Screaming</string>
 </resources>
