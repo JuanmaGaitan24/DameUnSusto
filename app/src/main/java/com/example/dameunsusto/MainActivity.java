@@ -141,6 +141,10 @@ public class MainActivity extends AppCompatActivity {
                                     MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
                                     miCuentaAtras.execute();
 
+                                    listaSonidos.setEnabled(false);
+                                    listaNsegundos.setEnabled(false);
+                                    listaplay.setEnabled(false);
+
                                 }catch (Exception e){
                                     Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.segundosmal), Toast.LENGTH_LONG);
                                     toast.show();

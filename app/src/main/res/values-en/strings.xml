@@ -25,5 +25,5 @@
     <string name="lovos">Wolves Howling</string>
     <string name="maderacruguiendo">Creaking Wood</string>
     <string name="zombie">Zombie Screaming</string>
-    <string name="segundosmal">La cantidad de segundos pasada es incorrecta</string>
+    <string name="segundosmal">The number of seconds passed is incorrect</string>
 </resources>
