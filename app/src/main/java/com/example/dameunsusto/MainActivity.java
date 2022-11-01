@@ -7,7 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telecom.PhoneAccountHandle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout listaSpinner, listaNsegundos, listaplay;
     EditText etCantSustos;
     Button btnCrearSustos;
+    ScrollView listaPrincipal;
+
+    int NumeroDeSustos;
 
     int[] logos = new int[]{
         R.drawable.alien, R.drawable.arbusto,
@@ -38,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
         R.drawable.song, R.drawable.storm,
         R.drawable.wind, R.drawable.wolf,
         R.drawable.woodcreaks, R.drawable.zombie
+    };
+
+    int[] sonidos = new int[]{
+        R.raw.aliensound, R.raw.leavesrustling,
+        R.raw.glassbreaking, R.raw.chains,
+        R.raw.chainsaw, R.raw.doorcreaks,
+        R.raw.evillaugh, R.raw.womanfalling,
+        R.raw.footsteps, R.raw.gutsbeingmangled,
+        R.raw.heartbeat, R.raw.knifebeingsharpened,
+        R.raw.knockdoor, R.raw.monsterroar,
+        R.raw.song, R.raw.thunderandrain,
+        R.raw.windandrain, R.raw.wolves,
+        R.raw.creaks, R.raw.zombiescream
     };
 
     String[] nombresSonidos = new String[]{};
@@ -65,12 +84,15 @@ public class MainActivity extends AppCompatActivity {
         listaplay = findViewById(R.id.filacuentaatras);
         etCantSustos = findViewById(R.id.editTextNSustos);
         btnCrearSustos = findViewById(R.id.buttonCrearSustos);
+        listaPrincipal = findViewById(R.id.listaSustos);
 
         btnCrearSustos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 int numsustos = Integer.valueOf(String.valueOf(etCantSustos.getText()));
+
+                NumeroDeSustos = numsustos;
 
                 if (numsustos >= 1 && numsustos <= 10){
 
@@ -84,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         listaSonidos.setPadding(20,60,0,40);
 
                         Nsegundos.setLayoutParams(new LinearLayout.LayoutParams(325, 250));
+                        Nsegundos.setInputType(2);
                         Nsegundos.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
                         Nsegundos.setHint(getString(R.string.numerosegundos));
                         Nsegundos.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -97,8 +120,25 @@ public class MainActivity extends AppCompatActivity {
                         listaNsegundos.addView(Nsegundos);
                         listaplay.addView(btnCuentaAtras);
 
+
                         AdaptadorParaSustos adaptadorParaSustos = new AdaptadorParaSustos(MainActivity.this, R.layout.lista, nombresSonidos);
                         listaSonidos.setAdapter(adaptadorParaSustos);
+
+                        btnCuentaAtras.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                int numSeg = Integer.valueOf(String.valueOf(Nsegundos.getText()));
+
+                                int tiempo = numSeg;
+
+                                int posSonido = listaSonidos.getSelectedItemPosition();
+
+                                MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
+                                miCuentaAtras.execute();
+
+                            }
+                        });
 
                     }
 
@@ -111,11 +151,98 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
                 }
 
-
             }
         });
 
+    }
 
+    class MiCuentaAtras extends AsyncTask<String, String,String> {
+
+        int miTiempo;
+        int miPosSonido;
+        TextView miNsegundos;
+        Spinner miListaSonidos;
+        Button miBtnCuentaAtras;
+        LinearLayout miListaSpinner;
+        LinearLayout miListaNSegundos;
+        LinearLayout miListaPlay;
+
+        public MiCuentaAtras(int tiempo, int possonido,EditText nsegundos) {
+            miTiempo = tiempo;
+            miPosSonido = possonido;
+            miNsegundos = nsegundos;
+        }
+
+        public MiCuentaAtras(int tiempo, int posSonido, EditText nsegundos, LinearLayout listaNsegundos) {
+
+            miTiempo = tiempo;
+            miPosSonido = posSonido;
+            miNsegundos = nsegundos;
+            miListaNSegundos = listaNsegundos;
+        }
+
+        public MiCuentaAtras(int tiempo, int posSonido, Spinner listaSonidos, LinearLayout listaSpinner, EditText nsegundos, LinearLayout listaNsegundos, Button btnCuentaAtras, LinearLayout listaplay) {
+
+            miTiempo = tiempo;
+            miPosSonido = posSonido;
+            miListaSonidos = listaSonidos;
+            miNsegundos = nsegundos;
+            miBtnCuentaAtras = btnCuentaAtras;
+            miListaSpinner = listaSpinner;
+            miListaNSegundos = listaNsegundos;
+            miListaPlay = listaplay;
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            miTiempo--;
+            miNsegundos.setText(String.valueOf(miTiempo));
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, sonidos[miPosSonido]);
+            mediaPlayer.start();
+            miListaSpinner.removeView(miListaSonidos);
+            miListaNSegundos.removeView(miNsegundos);
+            miListaPlay.removeView(miBtnCuentaAtras);
+
+            comprobarlista();
+
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            while (miTiempo > 0){
+
+                publishProgress();
+
+                try {
+                    Thread.sleep(1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+        }
+
+    }
+
+    private void comprobarlista() {
+
+        NumeroDeSustos--;
+
+        if(NumeroDeSustos == 0){
+
+            btnCrearSustos.setEnabled(true);
+            etCantSustos.setEnabled(true);
+
+        }
 
     }
 
