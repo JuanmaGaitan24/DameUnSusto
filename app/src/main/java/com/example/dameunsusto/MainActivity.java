@@ -128,14 +128,24 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
 
-                                int numSeg = Integer.valueOf(String.valueOf(Nsegundos.getText()));
+                                int numSeg;
 
-                                int tiempo = numSeg;
+                                try {
 
-                                int posSonido = listaSonidos.getSelectedItemPosition();
+                                    numSeg = Integer.valueOf(String.valueOf(Nsegundos.getText()));
 
-                                MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
-                                miCuentaAtras.execute();
+                                    int tiempo = numSeg;
+
+                                    int posSonido = listaSonidos.getSelectedItemPosition();
+
+                                    MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
+                                    miCuentaAtras.execute();
+
+                                }catch (Exception e){
+                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.segundosmal), Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+
 
                             }
                         });
