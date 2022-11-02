@@ -139,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
                                     int posSonido = listaSonidos.getSelectedItemPosition();
 
                                     MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
-                                    miCuentaAtras.execute();
+                                    miCuentaAtras.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                                     listaSonidos.setEnabled(false);
-                                    listaNsegundos.setEnabled(false);
-                                    listaplay.setEnabled(false);
+                                    Nsegundos.setEnabled(false);
+                                    btnCuentaAtras.setEnabled(false);
 
                                 }catch (Exception e){
                                     Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.segundosmal), Toast.LENGTH_LONG);
