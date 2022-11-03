@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/textViewtitulo"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:gravity="center_vertical"
         android:text="TextView"
         android:textColor="@android:color/holo_orange_dark"
@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/imageViewIcono"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

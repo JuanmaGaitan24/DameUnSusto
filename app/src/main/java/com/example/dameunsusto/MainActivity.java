@@ -26,9 +26,10 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout listaSpinner, listaNsegundos, listaplay;
+    LinearLayout listaSpinner, listaNsegundos, listaplay, listaPause;
     EditText etCantSustos;
     Button btnCrearSustos;
+    Button btnSalir;
     ScrollView listaPrincipal;
 
     int NumeroDeSustos;
@@ -61,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     String[] nombresSonidos = new String[]{};
 
+    boolean[] pausaspulsadas;
+    boolean[] hilosactivos;
+    boolean[] hilocreado;
+
+    boolean hiloactivo = false;
+    boolean pausa = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +90,12 @@ public class MainActivity extends AppCompatActivity {
         listaSpinner = findViewById(R.id.filaSpinner);
         listaNsegundos = findViewById(R.id.filaTextNumber);
         listaplay = findViewById(R.id.filacuentaatras);
+        listaPause = findViewById(R.id.filaPausa);
         etCantSustos = findViewById(R.id.editTextNSustos);
         btnCrearSustos = findViewById(R.id.buttonCrearSustos);
         listaPrincipal = findViewById(R.id.listaSustos);
+        btnSalir = findViewById(R.id.buttonSalir);
+
 
         btnCrearSustos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,18 +105,23 @@ public class MainActivity extends AppCompatActivity {
 
                 NumeroDeSustos = numsustos;
 
+                pausaspulsadas = new boolean[NumeroDeSustos];
+                hilosactivos = new boolean[NumeroDeSustos];
+                hilocreado = new boolean[NumeroDeSustos];
+
                 if (numsustos >= 1 && numsustos <= 10){
 
                     for (int i = 0; i < numsustos; i++){
 
                         Spinner listaSonidos = new Spinner(MainActivity.this);
                         EditText Nsegundos = new EditText(MainActivity.this);
+                        Button btnPausa = new Button(MainActivity.this);
                         Button btnCuentaAtras = new Button(MainActivity.this);
 
-                        listaSonidos.setLayoutParams(new LinearLayout.LayoutParams(500, 250));
+                        listaSonidos.setLayoutParams(new LinearLayout.LayoutParams(435, 185));
                         listaSonidos.setPadding(20,60,0,40);
 
-                        Nsegundos.setLayoutParams(new LinearLayout.LayoutParams(325, 250));
+                        Nsegundos.setLayoutParams(new LinearLayout.LayoutParams(260, 185));
                         Nsegundos.setInputType(2);
                         Nsegundos.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
                         Nsegundos.setHint(getString(R.string.numerosegundos));
@@ -113,13 +129,17 @@ public class MainActivity extends AppCompatActivity {
                         Nsegundos.setHintTextColor(getResources().getColor(android.R.color.holo_orange_light));
                         Nsegundos.setPadding(30,60,0,40);
 
-                        btnCuentaAtras.setLayoutParams(new LinearLayout.LayoutParams(250, 250));
+                        btnCuentaAtras.setLayoutParams(new LinearLayout.LayoutParams(185, 185));
                         btnCuentaAtras.setBackground(getResources().getDrawable(R.drawable.play));
+
+                        btnPausa.setLayoutParams(new ViewGroup.LayoutParams(185,185));
+                        btnPausa.setBackground(getResources().getDrawable(R.drawable.pausa));
+                        btnPausa.setId(i);
 
                         listaSpinner.addView(listaSonidos);
                         listaNsegundos.addView(Nsegundos);
+                        listaPause.addView(btnPausa);
                         listaplay.addView(btnCuentaAtras);
-
 
                         AdaptadorParaSustos adaptadorParaSustos = new AdaptadorParaSustos(MainActivity.this, R.layout.lista, nombresSonidos);
                         listaSonidos.setAdapter(adaptadorParaSustos);
@@ -138,7 +158,11 @@ public class MainActivity extends AppCompatActivity {
 
                                     int posSonido = listaSonidos.getSelectedItemPosition();
 
-                                    MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay);
+                                    hilocreado[btnPausa.getId()] = true;
+                                    hilosactivos[btnPausa.getId()] = true;
+                                    pausaspulsadas[btnPausa.getId()] = false;
+
+                                    MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay, btnPausa.getId());
                                     miCuentaAtras.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                                     listaSonidos.setEnabled(false);
@@ -150,6 +174,49 @@ public class MainActivity extends AppCompatActivity {
                                     toast.show();
                                 }
 
+                            }
+                        });
+
+                        btnPausa.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                int numSeg;
+
+                                if (hilocreado[btnPausa.getId()]){
+
+                                    if (pausaspulsadas[btnPausa.getId()] && !hilosactivos[btnPausa.getId()]){
+
+                                        numSeg = Integer.valueOf(String.valueOf(Nsegundos.getText()));
+
+                                        int tiempo = numSeg;
+
+                                        int posSonido = listaSonidos.getSelectedItemPosition();
+
+                                        hilocreado[btnPausa.getId()] = true;
+                                        hilosactivos[btnPausa.getId()] = true;
+                                        pausaspulsadas[btnPausa.getId()] = false;
+
+                                        MiCuentaAtras miCuentaAtras = new MiCuentaAtras(tiempo, posSonido, listaSonidos, listaSpinner,Nsegundos, listaNsegundos, btnCuentaAtras, listaplay, btnPausa.getId());
+                                        miCuentaAtras.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                                    }
+                                    else {
+
+                                        hilosactivos[btnPausa.getId()] = false;
+                                        pausaspulsadas[btnPausa.getId()] = true;
+
+                                    }
+
+                                }else {
+
+                                    listaSpinner.removeView(listaSonidos);
+                                    listaNsegundos.removeView(Nsegundos);
+                                    listaPause.removeView(btnPausa);
+                                    listaplay.removeView(btnCuentaAtras);
+
+                                    comprobarlista();
+                                }
 
                             }
                         });
@@ -168,12 +235,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+
+            }
+        });
+
     }
 
     class MiCuentaAtras extends AsyncTask<String, String,String> {
 
         int miTiempo;
         int miPosSonido;
+        int miPos;
+        boolean mihiloactivo;
+        boolean miPausa;
         TextView miNsegundos;
         Spinner miListaSonidos;
         Button miBtnCuentaAtras;
@@ -181,21 +260,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout miListaNSegundos;
         LinearLayout miListaPlay;
 
-        public MiCuentaAtras(int tiempo, int possonido,EditText nsegundos) {
-            miTiempo = tiempo;
-            miPosSonido = possonido;
-            miNsegundos = nsegundos;
-        }
-
-        public MiCuentaAtras(int tiempo, int posSonido, EditText nsegundos, LinearLayout listaNsegundos) {
-
-            miTiempo = tiempo;
-            miPosSonido = posSonido;
-            miNsegundos = nsegundos;
-            miListaNSegundos = listaNsegundos;
-        }
-
-        public MiCuentaAtras(int tiempo, int posSonido, Spinner listaSonidos, LinearLayout listaSpinner, EditText nsegundos, LinearLayout listaNsegundos, Button btnCuentaAtras, LinearLayout listaplay) {
+        public MiCuentaAtras(int tiempo, int posSonido, Spinner listaSonidos, LinearLayout listaSpinner, EditText nsegundos, LinearLayout listaNsegundos, Button btnCuentaAtras, LinearLayout listaplay, int pos) {
 
             miTiempo = tiempo;
             miPosSonido = posSonido;
@@ -205,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
             miListaSpinner = listaSpinner;
             miListaNSegundos = listaNsegundos;
             miListaPlay = listaplay;
+            miPos = pos;
 
         }
 
@@ -217,20 +283,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
 
-            MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, sonidos[miPosSonido]);
-            mediaPlayer.start();
-            miListaSpinner.removeView(miListaSonidos);
-            miListaNSegundos.removeView(miNsegundos);
-            miListaPlay.removeView(miBtnCuentaAtras);
+            if (!pausaspulsadas[miPos]){
+                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, sonidos[miPosSonido]);
+                mediaPlayer.start();
+                miListaSpinner.removeView(miListaSonidos);
+                miListaNSegundos.removeView(miNsegundos);
+                miListaPlay.removeView(miBtnCuentaAtras);
 
-            comprobarlista();
+                comprobarlista();
+            }
 
         }
 
         @Override
         protected String doInBackground(String... strings) {
 
-            while (miTiempo > 0){
+            while (miTiempo > 0 && hilosactivos[miPos]){
 
                 publishProgress();
 

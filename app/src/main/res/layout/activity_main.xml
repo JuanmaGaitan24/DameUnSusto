@@ -41,12 +41,13 @@
     <ScrollView
         android:id="@+id/listaSustos"
         android:layout_width="409dp"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:layout_marginTop="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNSustos">
+        app:layout_constraintTop_toBottomOf="@+id/editTextNSustos"
+        app:layout_constraintVertical_bias="0.19999999">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,8 +70,29 @@
                 android:id="@+id/filacuentaatras"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filaPausa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"></LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/buttonSalir"
+        android:layout_width="213dp"
+        android:layout_height="49dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:text="@string/texSalir"
+        android:textColor="@color/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

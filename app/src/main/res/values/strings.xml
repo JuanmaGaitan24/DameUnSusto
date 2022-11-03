@@ -25,4 +25,5 @@
     <string name="maderacruguiendo">Madera cruguiendo</string>
     <string name="zombie">Zombie gritando</string>
     <string name="segundosmal">La cantidad de segundos pasada es incorrecta</string>
+    <string name="texSalir">Salir</string>
 </resources>

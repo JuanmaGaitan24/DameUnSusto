@@ -26,4 +26,5 @@
     <string name="maderacruguiendo">Creaking Wood</string>
     <string name="zombie">Zombie Screaming</string>
     <string name="segundosmal">The number of seconds passed is incorrect</string>
+    <string name="texSalir">Exit</string>
 </resources>
